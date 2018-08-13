@@ -1,41 +1,36 @@
 from django.contrib.gis.db import models
 
 
-class WorldBorder(models.Model):
-    # Regular Django fields corresponding to the attributes in the
-    # world borders shapefile.
-    name = models.CharField(max_length=50)
-    area = models.IntegerField()
-    pop2005 = models.IntegerField('Population 2005')
-    fips = models.CharField('FIPS Code', max_length=2)
-    iso2 = models.CharField('2 Digit ISO', max_length=2)
-    iso3 = models.CharField('3 Digit ISO', max_length=3)
-    un = models.IntegerField('United Nations Code')
-    region = models.IntegerField('Region Code')
-    subregion = models.IntegerField('Sub-Region Code')
-    lon = models.FloatField()
-    lat = models.FloatField()
+class POI(models.Model):
+    name = models.CharField(max_length=60)
+    description = models.CharField(max_length=600, null=True)
 
-    # GeoDjango-specific: a geometry field (MultiPolygonField)
-    mpoly = models.MultiPolygonField()
+    TYPES = (
+        (0, 'Aussichtspunkt'),
+        (1, 'Bademöglichkeit'),
+        (2, 'Unterkunft'),
+    )
+    type = models.IntegerField(choices=TYPES)
+
+    geomety = models.PointField()
 
     # Returns the string representation of the model.
     def __str__(self):
         return self.name
 
 
-# Auto-generated `LayerMapping` dictionary for WorldBorder model
-worldborders_mapping = {
-    'fips': 'FIPS',
-    'iso2': 'ISO2',
-    'iso3': 'ISO3',
-    'un': 'UN',
-    'name': 'NAME',
-    'area': 'AREA',
-    'pop2005': 'POP2005',
-    'region': 'REGION',
-    'subregion': 'SUBREGION',
-    'lon': 'LON',
-    'lat': 'LAT',
-    'geom': 'MULTIPOLYGON',
-}
+class Route(models.Model):
+    name = models.CharField(max_length=60)
+    description = models.CharField(max_length=600, null=True)
+
+    TYPES = (
+        (0, 'Autoroute'),
+        (1, 'Wanderung'),
+    )
+    type = models.IntegerField(choices=TYPES)
+
+    geomety = models.LineStringField()
+
+    # Returns the string representation of the model.
+    def __str__(self):
+        return self.name

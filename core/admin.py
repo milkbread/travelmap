@@ -1,4 +1,5 @@
 from django.contrib.gis import admin
-from .models import WorldBorder
+from .models import POI, Route
 
-admin.site.register(WorldBorder, admin.GeoModelAdmin)
+admin.site.register(POI, admin.GeoModelAdmin)
+admin.site.register(Route, admin.GeoModelAdmin)
